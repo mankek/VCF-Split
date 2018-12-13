@@ -1,21 +1,35 @@
 #!/bin/bash
 
 usage() {
-	echo "Usage: $0 [-h] [c] [-i] [p] [s]"
-	echo "	-h	Help."
+	echo "Usage: $0 [-h] [-i FILE] [-o OUTPUT] [-c CALLER] [-p] [-s]"
+	echo "	-h	Displays this help message."
 	echo "	-i	Set multi-sample VCF"
+	echo "	-o	Set output location"
 	echo "  -c      Specify variant caller"
-	echo "	-p	Print patient names in input file"
-	echo "	-s	Perform splitting of input vcf"
+	echo "	-p	Print patient names in input file. Setting the -c argument will print all patient names with the specified caller."
+	echo "	-s	Perform splitting of input vcf. Setting the -c argument will split out the patients with the specified caller."
 	echo "This is a help message"
 	exit
 }
 
-while getopts "hi:c:sp" optchar;
+location() {
+	if test -z "$output"
+	then
+		echo "$1"
+	else
+		loc=$output
+		echo "$loc/$1"
+	fi
+}
+
+while getopts "hi:o:c:sp" optchar;
 do
 	case $optchar in
 		i)
 			file="$OPTARG"
+			;;
+		o)
+			output="$OPTARG"
 			;;
 		c)
 			caller="$OPTARG"
@@ -28,7 +42,14 @@ do
 			else
 				for f in $(awk '/^#CHROM/ {for (i=10; i<=NF; i++) print $i; }' $file)
                         	do
-                                	vcftools --vcf $file --indv $f --recode --out $f
+					out=$(location $f)
+					if test -z "$caller"
+					then
+                                		vcftools --vcf $file --indv $f --recode --out $out
+					else
+						patient=$(echo "$f"|awk -F'.' -v pat="$caller" '{ if ($2 == pat) print $1 "." $2 }')
+						vcftools --vcf $file --indv $patient --recode --out $out
+					fi
                         	done
 			fi
                         ;;
@@ -44,7 +65,7 @@ do
 					then
                                 		echo "$f"
 					else
-						echo "$f"|awk -F'.' '{ print $2 }'
+						echo "$f"|awk -F'.' -v pat="$caller" '{ if ($2 == pat) print $1 "." $2 }'
 					fi
                         	done
 			fi
