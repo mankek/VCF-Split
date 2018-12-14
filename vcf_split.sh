@@ -3,12 +3,12 @@
 usage() {
 	echo "Usage: $0 [-h] [-i FILE] [-o OUTPUT] [-c CALLER] [-p] [-s]"
 	echo "	-h	Displays this help message."
-	echo "	-i	Set multi-sample VCF"
-	echo "	-o	Set output location"
-	echo "  -c      Specify variant caller"
+	echo "	-i	Multi-sample VCF location; required."
+	echo "	-o	Split VCF file output location; each individual vcf will be sent to the same location, but will automatically be named by patient name."
+	echo "  -c      Specify variant caller; optional for either printing or splitting."
 	echo "	-p	Print patient names in input file. Setting the -c argument will print all patient names with the specified caller."
 	echo "	-s	Perform splitting of input vcf. Setting the -c argument will split out the patients with the specified caller."
-	echo "This is a help message"
+	echo "This is a help message."
 	exit
 }
 

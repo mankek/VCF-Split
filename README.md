@@ -8,6 +8,8 @@ Use:
 
 -i: Specifies input multi-sample vcf
 
+-c: Specifies the variant caller for which samples should be split or printed; optional
+
 -p: Prints a list of all patients found in the input file
 
 -s: performs splitting on the input file
