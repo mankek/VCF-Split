@@ -8,7 +8,9 @@ Use:
 
 -i: Specifies input multi-sample vcf
 
--c: Specifies the variant caller for which samples should be split or printed; optional
+-c: If samples used different variant callers, specifies the variant caller for which samples should be split or printed; optional
+
+-r: This option removes log files for non-selected samples when a specific caller is set for splitting
 
 -p: Prints a list of all patients found in the input file
 
