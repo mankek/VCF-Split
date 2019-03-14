@@ -22,6 +22,6 @@ Options
 
 -r: This option removes log files for non-selected samples when a specific caller is set for splitting
 
--p: Prints a list of all patients found in the input vcf. Setting the -c argument will print all sample IDs with the specified caller.
+-p: Prints a list of all samples found in the input vcf. Setting the -c argument will print all sample IDs with the specified caller.
 
--s: performs splitting on the input vcf. Setting -c argument will split out patients with the sepcified caller.
+-s: performs splitting on the input vcf. Setting -c argument will split out samples with the specified caller.
